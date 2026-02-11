@@ -1,0 +1,11 @@
+import pandas as pd
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import LabelEncoder
+df16 = pd.read_csv("C:\\Users\\acer21\\OneDrive\\Desktop\\day16_encoding.csv")
+ohe = OneHotEncoder(sparse_output=True, handle_unknown="ignore")
+city_encoded = ohe.fit_transform(df16[["city"]])
+
+print("Encoded shape:", city_encoded.shape, "Categories:", ohe.categories_)
+le_city = LabelEncoder()
+df16["city_label"] = le_city.fit_transform(df16["city"])
+print("Classes:", le_city.classes_) # Sorted alphabetically: CHI, LA, NY, SF
