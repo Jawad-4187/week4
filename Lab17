@@ -1,0 +1,16 @@
+import pandas as pd
+from sklearn.preprocessing import LabelEncoder
+from sklearn.preprocessing import MinMaxScaler, StandardScaler, RobustScaler
+df17 = pd.read_csv(r"C:\\Users\\acer21\\Downloads\\day17_scaling (1).csv")
+
+minmax = MinMaxScaler()
+standard = StandardScaler()
+robust = RobustScaler()
+
+df17_minmax = minmax.fit_transform(df17)
+df17_standard = standard.fit_transform(df17)
+df17_robust = robust.fit_transform(df17)
+
+print("MinMax mean:", df17_minmax.mean(), "std:", df17_minmax.std())
+print("Standard mean:", df17_standard.mean(), "std:", df17_standard.std())
+print("Robust median:", pd.DataFrame(df17_robust).median())
