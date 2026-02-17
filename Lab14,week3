@@ -1,0 +1,26 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.linear_model import LogisticRegression
+
+np.random.seed(42)
+income = np.concatenate([np.random.lognormal(10, 0.5, 5000), [1e7, 2e7, 5e7]])
+df11 = pd.DataFrame({"income": income})
+plt.figure(figsize=(6,4))
+sns.boxplot(x=df11["income"])
+plt.xscale("log")
+plt.title("Income Distribution with Outliers")
+plt.show()
+threshold = df11["income"].quantile(0.9)
+df11["target"] = (df11["income"] >= threshold).astype(int)
+
+X_raw = df11[["income"]]
+y = df11["target"]
+income_capped = df11["income"].clip(upper=df11["income"].quantile(0.95))
+X_cap = pd.DataFrame({"income": income_capped})
+
+clf_raw = LogisticRegression().fit(X_raw, y)
+clf_cap = LogisticRegression().fit(X_cap, y)
+
+print("Coef raw:", clf_raw.coef_[0][0], "Coef capped:", clf_cap.coef_[0][0])
